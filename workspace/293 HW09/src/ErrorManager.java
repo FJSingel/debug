@@ -86,4 +86,9 @@ class ErrorManager {
         return (errorsWritten > 0) ? EXIT_ERR : EXIT_OK;
     }
     
+    void resetErrorCount()
+    {
+    	errorsWritten = 0;
+    }
+    
 }

@@ -18,12 +18,24 @@ public class NumberTesting {
 	{
 		//Ensures ErrorManager returns correct exit codes
 		ErrorManager emt = ErrorManager.getInstance();
+		emt.resetErrorCount();
 		emt.setErrorOutput(System.err);
 		assertEquals(0, emt.getExitCode());
 		emt.error("Testing ExitCode");
 		assertEquals(7, emt.getExitCode());
 		emt.error("Testing ExitCode");
 		assertEquals(7, emt.getExitCode());
+	}
+
+	@Test
+	public void testException()
+	{
+		//Ensures ErrorManager returns correct exit codes
+		ErrorManager emt = ErrorManager.getInstance();
+		emt.resetErrorCount();
+		emt.setErrorOutput(System.err);
+		assertEquals(0, emt.getExitCode());
+		emt.exception(new NullPointerException());
 	}
 	
 	@Test
@@ -284,6 +296,26 @@ public class NumberTesting {
         assertEquals(Integer.MIN_VALUE, number.toInt());
 	}
 	
+	@Test
+	public void testNullInit()
+	{
+		//Tests numbers that are too large
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+	    assertFalse(number.initialize(null));
+        assertEquals(Integer.MIN_VALUE, number.toInt());
+	}
+	
+	@Test
+	public void testNumberTokenEquals()
+	{
+		//Makes sure NumberTokenEquals works
+		NumberToken nt1 = new NumberToken("ten");
+		NumberToken nt2 = new NumberToken("ten");
+		NumberToken nt3 = new NumberToken("eleven");
+		assertTrue(nt1.equals(nt2));
+		assertFalse(nt1.equals(nt3));
+	}
 	
 	@After
 	public void tearDown() throws Exception {

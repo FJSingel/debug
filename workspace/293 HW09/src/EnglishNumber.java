@@ -123,7 +123,7 @@ public class EnglishNumber {
     private int interpetAsInt(){
         
         int toReturn = 0;
-        toReturn += millions[HUNDREDS_DIG] * 100 * 100000;
+        toReturn += millions[HUNDREDS_DIG] * 100 * 1000000;
         toReturn += millions[TENS_DIG] * 10 * 1000000;
         toReturn += millions[ONES_DIG] * 1 * 1000000;
         
@@ -366,6 +366,7 @@ public class EnglishNumber {
             return true;
         }
         
+        //note, this consumes, so peek isn't exactly the same
         int[] parsed = parsePrefix();
         if (parsed == null){
             // Error parsing

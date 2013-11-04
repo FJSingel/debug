@@ -108,8 +108,7 @@ enum TokenType {
     int getValue(String s){
         Map<String, Integer> values = getValues();
         for (Entry<String, Integer> e : values.entrySet()){
-        	System.out.println("In TokenType.getValue-- " + s + "==" + e.getValue().toString());
-            if (s.equals(e.getKey().toString())){
+        	if (s.equals(e.getKey().toString())){
                 return e.getValue();
             }
         }

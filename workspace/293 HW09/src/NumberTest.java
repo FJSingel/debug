@@ -1,4 +1,6 @@
 import junit.framework.TestCase;
+import junit.*;
+
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;

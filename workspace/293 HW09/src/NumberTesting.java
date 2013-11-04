@@ -2,16 +2,19 @@
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.junit.After;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.Test;
 
-public class NumberTesting {
+/*
+ * Some errors found and fixed:
+ * "Eigty"
+ * Numbers not multiplying past 1
+ * Odd 10k digit
+ * Adding 100M and 10M digits
+ * Switching a (bad) System.out.println to em.error
+ */
 
-	@Before
-	public void setUp() throws Exception {
-	}
+public class NumberTesting {
 	
 	@Test
 	public void testExitCode()
@@ -370,9 +373,4 @@ public class NumberTesting {
         assertFalse(number.initialize(words));
         assertEquals(Integer.MIN_VALUE, number.toInt());
 	}
-	
-	@After
-	public void tearDown() throws Exception {
-	}
-
 }

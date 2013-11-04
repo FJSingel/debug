@@ -35,9 +35,7 @@ public class NumberTesting {
 		ArrayList<String> words = new ArrayList<String>();
 	    words.add("one");
 	    words.add("hundred");
-	    boolean success = number.initialize(words);
-        assertTrue(success);
-        System.out.println(number.toInt());
+	    assertTrue(number.initialize(words));
         assertEquals(100, number.toInt());   
 	}
 	
@@ -63,36 +61,30 @@ public class NumberTesting {
 	    words.add("hundred");
 	    words.add("ninety");
 	    words.add("nine");
-	    boolean success = number.initialize(words);
-        assertTrue(success);
-        System.out.println(number.toInt());
+	    assertTrue(number.initialize(words));
         assertEquals(-999999999, number.toInt());
 	}
 	
 	@Test
 	public void testReinitialize()
 	{
-		//Tests what happens if you initialize something again
+		//Tests reinitialization (bad data)
 		EnglishNumber number = new EnglishNumber();
 		assertNotNull(number);
 		ArrayList<String> words = new ArrayList<String>();
 		words.add("one");
 		words.add("hundred");
-		boolean success = number.initialize(words);
-        assertTrue(success);
-        System.out.println(number.toInt());
+        assertTrue(number.initialize(words));
         assertEquals(100, number.toInt());
-        words.set(0, "twenty");
-        words.set(1, "five");
-        success = number.initialize(words);
-        assertTrue(success);
-        System.out.println(number.toInt());
-        assertEquals(25, number.toInt());
+        words.set(0, "five");
+        assertFalse(number.initialize(words));
+        assertEquals(100, number.toInt());	//make sure number hasn't changed
 	}
 	
 	@Test
 	public void testDigitsAndNTY()
 	{
+		//tests characters 1-9 and 20,30,40,50,60,70,80,90
 		EnglishNumber number = new EnglishNumber();
 		assertNotNull(number);
 		ArrayList<String> words = new ArrayList<String>();
@@ -110,11 +102,10 @@ public class NumberTesting {
 	    words.add("hundred");
 	    words.add("eighty");
 	    words.add("nine");
-	    boolean success = number.initialize(words);
-        assertTrue(success);
-        System.out.println(number.toInt());
+	    assertTrue(number.initialize(words));
         assertEquals(123456789, number.toInt());
         
+        EnglishNumber number2 = new EnglishNumber();
         words = new ArrayList<String>();
 		words.add("two");
 	    words.add("hundred");
@@ -130,11 +121,11 @@ public class NumberTesting {
 	    words.add("hundred");
 	    words.add("ninety");
 	    words.add("seven");
-	    success = number.initialize(words);
-        assertTrue(success);
-        System.out.println(number.toInt());
-        assertEquals(231564897, number.toInt());
+	    assertTrue(number2.initialize(words));
+        assertEquals(231564897, number2.toInt());
         
+
+        EnglishNumber number3 = new EnglishNumber();
         words = new ArrayList<String>();
 		words.add("three");
 	    words.add("hundred");
@@ -149,10 +140,8 @@ public class NumberTesting {
 	    words.add("hundred");
 	    words.add("seventy");
 	    words.add("eight");
-	    success = number.initialize(words);
-        assertTrue(success);
-        System.out.println(number.toInt());
-        assertEquals(312645978, number.toInt());
+	    assertTrue(number3.initialize(words));
+        assertEquals(312645978, number3.toInt());
 		
 	}
 	
@@ -160,17 +149,16 @@ public class NumberTesting {
 	public void testTeens()
 	{
 		//Test every value in Teen.
-		EnglishNumber number = new EnglishNumber();
-		assertNotNull(number);
 		ArrayList<String> words = new ArrayList<String>();
 		Map<String, Integer> teenValues = TokenType.TEEN.getValues();
 
 		words.add("");
 	    for(Map.Entry<String,Integer> entry : teenValues.entrySet())
 	    {
+	    	EnglishNumber number = new EnglishNumber();
+	    	assertNotNull(number);
 	    	words.set(0, entry.getKey());
 	        assertTrue(number.initialize(words));
-	        System.out.println(number.toInt());
 	        assertEquals(10+entry.getValue(), number.toInt());
 	    }
 	}
@@ -184,12 +172,12 @@ public class NumberTesting {
 		ArrayList<String> words = new ArrayList<String>();
 		words.add("naught");
         assertTrue(number.initialize(words));
-        System.out.println(number.toInt());
         assertEquals(0, number.toInt());
+        
         words.set(0, "zero");
-        assertTrue(number.initialize(words));
-        System.out.println(number.toInt());
-        assertEquals(0, number.toInt());
+        EnglishNumber zeroNumber = new EnglishNumber();
+        assertTrue(zeroNumber.initialize(words));
+        assertEquals(0, zeroNumber.toInt());
 	}
 	
 	@Test
@@ -202,12 +190,12 @@ public class NumberTesting {
 		words.add("negative");
 		words.add("ten");
         assertTrue(number.initialize(words));
-        System.out.println(number.toInt());
         assertEquals(-10, number.toInt());
+        
         words.set(0, "minus");
-        assertTrue(number.initialize(words));
-        System.out.println(number.toInt());
-        assertEquals(-10, number.toInt());
+        EnglishNumber minusNumber = new EnglishNumber();
+        assertTrue(minusNumber.initialize(words));
+        assertEquals(-10, minusNumber.toInt());
 	}
         
 	@Test
@@ -249,6 +237,7 @@ public class NumberTesting {
 	@Test
 	public void testEmpty()
 	{
+		//Ensure unexpected tokens breaks this properly (bad data)
 		EnglishNumber number = new EnglishNumber();
 		assertNotNull(number);
 		ArrayList<String> words = new ArrayList<String>();
@@ -266,6 +255,32 @@ public class NumberTesting {
 		words.add("hundred");
 		words.add("five");
         assertFalse(number.initialize(words));
+        assertEquals(Integer.MIN_VALUE, number.toInt());
+	}
+	
+	@Test
+	public void testTooLarge()
+	{
+		//Tests numbers that are too large
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		//9,099,999,999
+		words.add("nine");
+	    words.add("thousand");
+	    words.add("ninety");
+	    words.add("nine");
+	    words.add("million");
+	    words.add("nine");
+	    words.add("hundred");
+	    words.add("ninety");
+	    words.add("nine");
+	    words.add("thousand");
+	    words.add("nine");
+	    words.add("hundred");
+	    words.add("ninety");
+	    words.add("nine");
+	    assertFalse(number.initialize(words));
         assertEquals(Integer.MIN_VALUE, number.toInt());
 	}
 	

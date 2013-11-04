@@ -59,8 +59,19 @@ public class EnglishNumber {
  
     public boolean initialize(ArrayList<String> in) {
         assert (in != null) : "Cannot initialize with a null list";
-        assert (tokens != null) : "Cannot reinitialize EnglishNumber";
-        assert (in.size() > 0) : "Cannot accept an empty arraylist";
+        assert (tokens == null) : "Cannot reinitialize EnglishNumber";
+        assert (in.size() != 0) : "Cannot accept an empty arraylist";
+        
+        if (in == null)
+        {
+        	em.error("Cannot initialize a null list");
+        	return false;
+        }
+        
+        if (tokens != null){
+        	em.error("Cannot reinitialize EnglishNumber");
+        	return false;
+        }
         
         if (in.size() == 0){
             em.error("No tokens to parse.");

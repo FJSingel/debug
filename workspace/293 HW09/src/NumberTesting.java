@@ -1,43 +1,16 @@
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.junit.After;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-
+import org.junit.Test;
 
 public class NumberTesting {
 
 	@Before
 	public void setUp() throws Exception {
-	}
-
-	@Test
-	public void testHundredMillion()
-	{
-		//Also tests max
-		EnglishNumber number = new EnglishNumber();
-		assertNotNull(number);
-		ArrayList<String> words = new ArrayList<String>();
-	    words.add("one");
-	    words.add("hundred");
-	    words.add("twenty");
-	    words.add("three");
-	    words.add("million");
-	    words.add("four");
-	    words.add("hundred");
-	    words.add("fifty");
-	    words.add("six");
-	    words.add("thousand");
-	    words.add("seven");
-	    words.add("hundred");
-	    words.add("eighty");
-	    words.add("nine");
-	    boolean success = number.initialize(words);
-        assertTrue(success);
-        System.out.println(number.toInt());
-        assertEquals(123456789, number.toInt());
 	}
 	
 	@Test
@@ -104,17 +77,128 @@ public class NumberTesting {
 	}
 	
 	@Test
-	public void testAllTokens()
+	public void testDigitsAndNTY()
 	{
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("one");
+	    words.add("hundred");
+	    words.add("twenty");
+	    words.add("three");
+	    words.add("million");
+	    words.add("four");
+	    words.add("hundred");
+	    words.add("fifty");
+	    words.add("six");
+	    words.add("thousand");
+	    words.add("seven");
+	    words.add("hundred");
+	    words.add("eighty");
+	    words.add("nine");
+	    boolean success = number.initialize(words);
+        assertTrue(success);
+        System.out.println(number.toInt());
+        assertEquals(123456789, number.toInt());
+        
+        words = new ArrayList<String>();
+		words.add("two");
+	    words.add("hundred");
+	    words.add("thirty");
+	    words.add("one");
+	    words.add("million");
+	    words.add("five");
+	    words.add("hundred");
+	    words.add("sixty");
+	    words.add("four");
+	    words.add("thousand");
+	    words.add("eight");
+	    words.add("hundred");
+	    words.add("ninety");
+	    words.add("seven");
+	    success = number.initialize(words);
+        assertTrue(success);
+        System.out.println(number.toInt());
+        assertEquals(231564897, number.toInt());
+        
+        words = new ArrayList<String>();
+		words.add("three");
+	    words.add("hundred");
+	    words.add("twelve");
+	    words.add("million");
+	    words.add("six");
+	    words.add("hundred");
+	    words.add("forty");
+	    words.add("five");
+	    words.add("thousand");
+	    words.add("nine");
+	    words.add("hundred");
+	    words.add("seventy");
+	    words.add("eight");
+	    success = number.initialize(words);
+        assertTrue(success);
+        System.out.println(number.toInt());
+        assertEquals(312645978, number.toInt());
 		
+	}
+	
+	@Test
+	public void testTeens()
+	{
+		//Test every value in Teen.
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		Map<String, Integer> teenValues = TokenType.TEEN.getValues();
+
+		words.add("");
+	    for(Map.Entry<String,Integer> entry : teenValues.entrySet())
+	    {
+	    	words.set(0, entry.getKey());
+	        assertTrue(number.initialize(words));
+	        System.out.println(number.toInt());
+	        assertEquals(10+entry.getValue(), number.toInt());
+	    }
+	}
+	
+	@Test
+	public void testZeroes()
+	{
+		//Test the zeroes
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("naught");
+        assertTrue(number.initialize(words));
+        System.out.println(number.toInt());
+        assertEquals(0, number.toInt());
+        words.set(0, "zero");
+        assertTrue(number.initialize(words));
+        System.out.println(number.toInt());
+        assertEquals(0, number.toInt());
+	}
+	
+	@Test
+	public void testNegatives()
+	{
+		//Test the negation values
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("negative");
+		words.add("ten");
+        assertTrue(number.initialize(words));
+        System.out.println(number.toInt());
+        assertEquals(-10, number.toInt());
+        words.set(0, "minus");
+        assertTrue(number.initialize(words));
+        System.out.println(number.toInt());
+        assertEquals(-10, number.toInt());
 	}
         
-	@Test
-	public void testNumberToken()
-	{
-		NumberToken nt = new NumberToken("ten");
-		
-	}
+	
+	
+	
 	
 	@After
 	public void tearDown() throws Exception {

@@ -98,7 +98,6 @@ class NumberToken {
             case NTY:
             case TEEN:
                 int toReturn = type.getValue(s);
-                System.out.println("getValueOf: " + s + "=" + toReturn);
                 assert (toReturn >= 0) : "No value found for token type " + type;
                 return toReturn;
             default:

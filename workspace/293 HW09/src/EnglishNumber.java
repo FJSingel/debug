@@ -421,9 +421,9 @@ public class EnglishNumber {
                 assert(toReturn[HUNDREDS_DIG] != 0) : "We should've parsed this above";
                 toReturn[ONES_DIG] = consume().value;
                 break;
-            case TEN:
+            /*case TEN:
                 toReturn[TENS_DIG] = 1;
-                break;
+                break;*/
             default:
                 if (toReturn[HUNDREDS_DIG] == 0){
                     em.error("Unexpected token: \"%s\"", peek());

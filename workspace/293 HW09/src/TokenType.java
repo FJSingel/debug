@@ -21,7 +21,7 @@ enum TokenType {
     MILLION("million"),
     THOUSAND("thousand"),
     HUNDRED("hundred"),
-    TEN("ten"),
+    //TEN("ten"),
     /**
      * "twenty", "thirty", etc. 
      * Token's value should represent tens digit
@@ -48,9 +48,10 @@ enum TokenType {
      * "eleven", "twelve", etc.
      * Token's value should represent ones digit
      */
-    TEEN("eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen"){
+    TEEN("ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen"){
         private Map<String, Integer> values = new HashMap<String, Integer>(9);
         {
+        	values.put("ten", 0);
             values.put("eleven", 1);
             values.put("twelve", 2);
             values.put("thirteen", 3);

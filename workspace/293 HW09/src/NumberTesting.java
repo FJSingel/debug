@@ -317,6 +317,60 @@ public class NumberTesting {
 		assertFalse(nt1.equals(nt3));
 	}
 	
+	@Test
+	public void testNumberConversion()
+	{
+		//Tests the toString and toInt functions
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("minus");
+		words.add("three");
+		words.add("hundred");
+		words.add("five");
+		number.initialize(words);
+		assertEquals("minus three hundred five", number.toString());
+		assertEquals(-305, number.toInt());
+	}
+	
+	@Test
+	public void testConsumeZeroError()
+	{
+		//Tests input of "zero" [tokens]+ (bad data)
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("zero");
+		words.add("five");
+        assertFalse(number.initialize(words));
+        assertEquals(Integer.MIN_VALUE, number.toInt());
+	}
+
+	@Test
+	public void testNegativeZero()
+	{
+		//Tests input of "minus zero" [tokens]+ (bad data)
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("minus");
+		words.add("zero");
+        assertFalse(number.initialize(words));
+        assertEquals(Integer.MIN_VALUE, number.toInt());
+	}
+	
+	@Test
+	public void testJustMinus()
+	{
+		//Tests input of "minus" (bad data)
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("minus");
+        assertFalse(number.initialize(words));
+        assertEquals(Integer.MIN_VALUE, number.toInt());
+	}
+	
 	@After
 	public void tearDown() throws Exception {
 	}

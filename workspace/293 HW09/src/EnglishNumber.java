@@ -56,16 +56,16 @@ public class EnglishNumber {
      * @param in the words representing the number
      * @return true if there was an error parsing, false otherwise
      */
-    public EnglishNumber()
-    {
-    	
-    }
-    
+ 
     public boolean initialize(ArrayList<String> in) {
         assert (in != null) : "Cannot initialize with a null list";
         assert (tokens != null) : "Cannot reinitialize EnglishNumber";
+        assert (in.size() > 0) : "Cannot accept an empty arraylist";
         
-        System.out.println("Begin initializing number.");
+        if (in.size() == 0){
+            em.error("No tokens to parse.");
+            return false;
+        }
         
         // Tokenize input
         tokens = toTokens(in);
@@ -297,7 +297,6 @@ public class EnglishNumber {
         }
         
         NumberToken next = peek();
-        System.out.println("Next = " + next + " || parsed = " + parsed[0]);
         if (next == null){
             // Units, can't parse any more
             units = parsed;
@@ -446,7 +445,6 @@ public class EnglishNumber {
         // If we start with a digit, it could either
         // be the entire triplet or it could be before a HUNDRED
         int dValue = consume().value;
-        System.out.println("ParseFirstDigit: " + dValue);
         // If next token isn't HUNDRED, this digit is in the one's place
         if (peek() == null || peek().type != TokenType.HUNDRED){
             triplet[ONES_DIG] = dValue;

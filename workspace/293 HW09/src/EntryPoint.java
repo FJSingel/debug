@@ -45,19 +45,14 @@ public class EntryPoint {
         while (in.hasNext()){
             String toAdd = in.next();
             words.add(toAdd);
-            System.out.println("Token added");
         }
-        
-        System.out.println("Done parsing tokens");
             
         // Create a number and use the words to initialize
         EnglishNumber theNumber = new EnglishNumber();
 
-        System.out.println("Number made: " + words.get(0));
         boolean success = theNumber.initialize(words);
         if (success){
             output.println(theNumber.toInt());
         }
-        System.out.println("Printed out.");
     }
 }

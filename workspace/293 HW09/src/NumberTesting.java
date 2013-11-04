@@ -14,8 +14,22 @@ public class NumberTesting {
 	}
 	
 	@Test
+	public void testExitCode()
+	{
+		//Ensures ErrorManager returns correct exit codes
+		ErrorManager emt = ErrorManager.getInstance();
+		emt.setErrorOutput(System.err);
+		assertEquals(0, emt.getExitCode());
+		emt.error("Testing ExitCode");
+		assertEquals(7, emt.getExitCode());
+		emt.error("Testing ExitCode");
+		assertEquals(7, emt.getExitCode());
+	}
+	
+	@Test
 	public void testStandard()
 	{
+		//Just very basic nominal use
 		EnglishNumber number = new EnglishNumber();
 		assertNotNull(number);
 		ArrayList<String> words = new ArrayList<String>();
@@ -196,8 +210,64 @@ public class NumberTesting {
         assertEquals(-10, number.toInt());
 	}
         
+	@Test
+	public void testUpperCase()
+	{
+		//Ensure running uppercase breaks this properly (bad data)
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("Ten");
+        assertFalse(number.initialize(words));
+        assertEquals(Integer.MIN_VALUE, number.toInt());
+	}
 	
+	@Test
+	public void testGibberish()
+	{
+		//Ensure running gibberish breaks this properly (bad data)
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("ajfhadsjlfah");
+        assertFalse(number.initialize(words));
+        assertEquals(Integer.MIN_VALUE, number.toInt());
+	}
 	
+	@Test
+	public void testBlank()
+	{
+		//Ensure running a blank token breaks this properly (bad data)
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("");
+        assertFalse(number.initialize(words));
+        assertEquals(Integer.MIN_VALUE, number.toInt());
+	}
+	
+	@Test
+	public void testEmpty()
+	{
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+        assertFalse(number.initialize(words));
+        assertEquals(Integer.MIN_VALUE, number.toInt());
+	}
+	
+	@Test
+	public void testMisordered()
+	{
+		//Ensure unexpected tokens breaks this properly (bad data)
+		EnglishNumber number = new EnglishNumber();
+		assertNotNull(number);
+		ArrayList<String> words = new ArrayList<String>();
+		words.add("hundred");
+		words.add("five");
+        assertFalse(number.initialize(words));
+        assertEquals(Integer.MIN_VALUE, number.toInt());
+	}
 	
 	
 	@After
